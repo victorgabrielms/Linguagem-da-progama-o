@@ -1,0 +1,120 @@
+import java.util.ArrayList;
+import java.util.List;
+
+abstract class Propriedade {
+    private String endereco;
+    private int numeroQuartos;
+    private double preco;
+    private List<Reserva> reservas;
+    private List<Avaliacao> avaliacoes;
+
+    public Propriedade(String endereco, int numeroQuartos, double preco) {
+        this.endereco = endereco;
+        this.numeroQuartos = numeroQuartos;
+        this.preco = preco;
+        this.reservas = new ArrayList<>();
+        this.avaliacoes = new ArrayList<>();
+    }
+
+    // Métodos getters e setters
+
+    public void adicionarReserva(Reserva reserva) {
+        reservas.add(reserva);
+    }
+
+    public void adicionarAvaliacao(Avaliacao avaliacao) {
+        avaliacoes.add(avaliacao);
+    }
+
+    public double getAvaliacaoMedia() {
+        if (avaliacoes.isEmpty()) {
+            return 0;
+        }
+
+        double somaNotas = 0;
+        for (Avaliacao avaliacao : avaliacoes) {
+            somaNotas += avaliacao.getNota();
+        }
+
+        return somaNotas / avaliacoes.size();
+    }
+}
+
+class Apartamento extends Propriedade {
+    private String descricao;
+
+    public Apartamento(String endereco, int numeroQuartos, double preco, String descricao) {
+        super(endereco, numeroQuartos, preco);
+        this.descricao = descricao;
+    }
+
+    // Métodos getters e setters específicos do Apartamento
+}
+
+class Casa extends Propriedade {
+    private int numeroAndares;
+
+    public Casa(String endereco, int numeroQuartos, double preco, int numeroAndares) {
+        super(endereco, numeroQuartos, preco);
+        this.numeroAndares = numeroAndares;
+    }
+
+    // Métodos getters e setters específicos da Casa
+}
+
+abstract class Usuario {
+    private String nome;
+    private String email;
+    private String telefone;
+
+    public Usuario(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
+    // Métodos getters e setters
+
+    public abstract void realizarAcao();
+}
+
+class Proprietario extends Usuario {
+    private int numeroPropriedades;
+
+    public Proprietario(String nome, String email, String telefone, int numeroPropriedades) {
+        super(nome, email, telefone);
+        this.numeroPropriedades = numeroPropriedades;
+    }
+
+    @Override
+    public void realizarAcao() {
+        // Lógica específica do Proprietario
+    }
+}
+
+class Hospede extends Usuario {
+    private List<Propriedade> propriedadesFavoritas;
+
+    public Hospede(String nome, String email, String telefone) {
+        super(nome, email, telefone);
+        this.propriedadesFavoritas = new ArrayList<>();
+    }
+
+    @Override
+    public void realizarAcao() {
+        // Lógica específica do Hospede
+    }
+
+    public void adicionarPropriedadeFavorita(Propriedade propriedade) {
+        propriedadesFavoritas.add(propriedade);
+    }
+}
+
+class Reserva {
+    private Propriedade propriedade;
+    private Hospede hospede;
+    private String dataCheckIn;
+    private String dataCheckOut;
+    private double precoTotal;
+
+    public Reserva(Propriedade prop
